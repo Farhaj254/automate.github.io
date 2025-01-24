@@ -126,7 +126,11 @@ function addCategoryFiltering() {
             const category = button.getAttribute('data-category');
 
             gameCards.forEach((card) => {
-                if (category === 'all' || card.dataset.category === category) {
+                // Get the categories of the card as an array
+                const cardCategories = card.dataset.category.split(' ');
+
+                // Show the card if 'all' is selected or the card contains the selected category
+                if (category === 'all' || cardCategories.includes(category)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
