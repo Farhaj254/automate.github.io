@@ -74,25 +74,23 @@ function updateMetaDescription() {
     }
 }
 
-/**
- * Add dark mode toggle functionality
- */
+// Dark Mode Toggle
 function initializeDarkMode() {
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    darkModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+            "darkMode",
+            document.body.classList.contains("dark-mode")
+        );
     });
 
     // Persist Dark Mode
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
     }
 }
 
-/**
- * Add category filtering functionality
- */
 // Add Category Filtering
 function addCategoryFiltering() {
     const filterButtons = document.querySelectorAll(".filter-btn");
