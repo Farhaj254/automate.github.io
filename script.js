@@ -18,49 +18,50 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Add search functionality
  */
-function addSearchFunctionality() {
-    const searchBar = document.getElementById('search-bar');
-    const gameGrid = document.querySelector('.game-grid');
+// Open Search Section
+function openSearchSection() {
+    const searchSection = document.getElementById("search-section");
+    searchSection.style.display = "block"; // Show search overlay
+    document.body.style.overflow = "hidden"; // Prevent background scroll
+}
 
-    if (searchBar && gameGrid) {
-        searchBar.addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const gameCards = gameGrid.querySelectorAll('.game-card');
-            let hasResults = false;
+// Close Search Section
+function closeSearchSection() {
+    const searchSection = document.getElementById("search-section");
+    searchSection.style.display = "none"; // Hide search overlay
+    document.body.style.overflow = "auto"; // Restore background scroll
+}
 
-            gameCards.forEach((card) => {
-                const title = card.querySelector('.game-title').textContent.toLowerCase();
-                if (title.includes(searchText)) {
-                    card.style.display = 'block';
-                    hasResults = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+// Filter Games in Overlay (Real-Time Search)
+function filterGamesOverlay() {
+    const searchBar = document.getElementById("overlay-search-bar");
+    const searchText = searchBar.value.toLowerCase();
+    const gameCards = document.querySelectorAll(".game-grid .game-card");
+    const searchResultsGrid = document.getElementById("search-results-grid");
 
-            // Show/hide "No Results Found" message
-            toggleNoResultsMessage(hasResults, gameGrid);
-        });
+    searchResultsGrid.innerHTML = ""; // Clear previous results
+
+    let hasResults = false;
+
+    gameCards.forEach((card) => {
+        const title = card.querySelector(".game-title").textContent.toLowerCase();
+        if (title.includes(searchText)) {
+            const clonedCard = card.cloneNode(true); // Clone the matching game card
+            searchResultsGrid.appendChild(clonedCard);
+            hasResults = true;
+        }
+    });
+
+    // Show "No Results Found" message if no matches
+    if (!hasResults) {
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.id = "no-results";
+        noResultsMessage.textContent = "No games found.";
+        noResultsMessage.style.textAlign = "center";
+        noResultsMessage.style.color = "red";
+        searchResultsGrid.appendChild(noResultsMessage);
     }
 }
-function toggleSearchBar() {
-    const searchContainer = document.getElementById('search-container');
-    const searchIcon = document.getElementById('search-icon');
-
-    // Show the search bar and the close button, hide the search icon
-    searchContainer.style.display = 'flex';
-    searchIcon.style.display = 'none';
-}
-
-function closeSearchBar() {
-    const searchContainer = document.getElementById('search-container');
-    const searchIcon = document.getElementById('search-icon');
-
-    // Hide the search bar and show the search icon
-    searchContainer.style.display = 'none';
-    searchIcon.style.display = 'block';
-}
-
 
 
 /**
