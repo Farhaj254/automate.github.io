@@ -93,29 +93,27 @@ function initializeDarkMode() {
 /**
  * Add category filtering functionality
  */
+// Add Category Filtering
 function addCategoryFiltering() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const gameCards = document.querySelectorAll('.game-card');
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const gameCards = document.querySelectorAll(".game-grid .game-card");
 
     filterButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
+        button.addEventListener("click", () => {
+            const category = button.getAttribute("data-category");
 
             gameCards.forEach((card) => {
-                // Get the categories of the card as an array
-                const cardCategories = card.dataset.category.split(' ');
-
-                // Show the card if 'all' is selected or the card contains the selected category
-                if (category === 'all' || cardCategories.includes(category)) {
-                    card.style.display = 'block';
+                const cardCategories = card.dataset.category.split(" ");
+                if (category === "all" || cardCategories.includes(category)) {
+                    card.style.display = "block";
                 } else {
-                    card.style.display = 'none';
+                    card.style.display = "none";
                 }
             });
 
-            // Highlight the active filter button
-            filterButtons.forEach((btn) => btn.classList.remove('active'));
-            button.classList.add('active');
+            // Highlight active button
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
         });
     });
 }
