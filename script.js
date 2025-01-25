@@ -66,28 +66,7 @@ function filterGamesOverlay() {
 }
 
 
-/**
- * Show or hide the "No Results Found" message
- */
-function toggleNoResultsMessage(hasResults, gameGrid) {
-    const noResultsMessageId = 'no-results';
-    let noResults = document.getElementById(noResultsMessageId);
 
-    if (!hasResults) {
-        if (!noResults) {
-            noResults = document.createElement('p');
-            noResults.id = noResultsMessageId;
-            noResults.textContent = 'No games found.';
-            noResults.style.color = 'red';
-            noResults.style.textAlign = 'center';
-            gameGrid.appendChild(noResults);
-        }
-    } else {
-        if (noResults) {
-            noResults.remove();
-        }
-    }
-}
 
 /**
  * Automatically update the meta description
@@ -104,45 +83,47 @@ function updateMetaDescription() {
 /**
  * Add dark mode toggle functionality
  */
+// Dark Mode Toggle
 function initializeDarkMode() {
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    darkModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+            "darkMode",
+            document.body.classList.contains("dark-mode")
+        );
     });
 
     // Persist Dark Mode
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
     }
 }
 
 /**
  * Add category filtering functionality
  */
+// Add Category Filtering
 function addCategoryFiltering() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const gameCards = document.querySelectorAll('.game-card');
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const gameCards = document.querySelectorAll(".game-grid .game-card");
 
     filterButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
+        button.addEventListener("click", () => {
+            const category = button.getAttribute("data-category");
 
             gameCards.forEach((card) => {
-                // Get the categories of the card as an array
-                const cardCategories = card.dataset.category.split(' ');
-
-                // Show the card if 'all' is selected or the card contains the selected category
-                if (category === 'all' || cardCategories.includes(category)) {
-                    card.style.display = 'block';
+                const cardCategories = card.dataset.category.split(" ");
+                if (category === "all" || cardCategories.includes(category)) {
+                    card.style.display = "block";
                 } else {
-                    card.style.display = 'none';
+                    card.style.display = "none";
                 }
             });
 
-            // Highlight the active filter button
-            filterButtons.forEach((btn) => btn.classList.remove('active'));
-            button.classList.add('active');
+            // Highlight active button
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
         });
     });
 }
