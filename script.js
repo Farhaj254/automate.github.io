@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add real-time search functionality
     addSearchFunctionality();
 
+      // Add dark mode toggle functionality
+    initializeDarkMode();
+
     // Add category filter functionality
     addCategoryFiltering();
 
     // Automatically update meta description based on game title
     updateMetaDescription();
 
-    // Add dark mode toggle functionality
-    initializeDarkMode();
+  
 });
 
 /**
