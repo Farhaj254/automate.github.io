@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add category filter functionality
     addCategoryFiltering();
+    
+    // Automatically update meta description based on game title
+    updateMetaDescription();
 });
 
 // Open Search Section
