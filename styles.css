@@ -458,7 +458,6 @@ footer a:hover {
     color: #007bff;
     transform: scale(1.2); /* Add a hover zoom effect */
 }
-
 /* Ensure search icon is styled */
 #search-icon {
     font-size: 24px;
@@ -513,6 +512,4 @@ footer a:hover {
     #search-bar {
         width: auto; /* Adjust width for mobile */
     }
-}
-
 }
