@@ -18,74 +18,50 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Add search functionality
  */
-function addSearchFunctionality() {
-    const searchBar = document.getElementById('search-bar');
-    const gameGrid = document.querySelector('.game-grid');
-
-    if (searchBar && gameGrid) {
-        searchBar.addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const gameCards = gameGrid.querySelectorAll('.game-card');
-            let hasResults = false;
-
-            gameCards.forEach((card) => {
-                const title = card.querySelector('.game-title').textContent.toLowerCase();
-                if (title.includes(searchText)) {
-                    card.style.display = 'block';
-                    hasResults = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Show/hide "No Results Found" message
-            toggleNoResultsMessage(hasResults, gameGrid);
-        });
-    }
-}
-function toggleSearchBar() {
-    const searchContainer = document.getElementById('search-container');
-    const searchIcon = document.getElementById('search-icon');
-
-    // Show the search bar and the close button, hide the search icon
-    searchContainer.style.display = 'flex';
-    searchIcon.style.display = 'none';
+// Open Search Section
+function openSearchSection() {
+    const searchSection = document.getElementById("search-section");
+    searchSection.style.display = "block"; // Show search overlay
+    document.body.style.overflow = "hidden"; // Prevent background scroll
 }
 
-function closeSearchBar() {
-    const searchContainer = document.getElementById('search-container');
-    const searchIcon = document.getElementById('search-icon');
-
-    // Hide the search bar and show the search icon
-    searchContainer.style.display = 'none';
-    searchIcon.style.display = 'block';
+// Close Search Section
+function closeSearchSection() {
+    const searchSection = document.getElementById("search-section");
+    searchSection.style.display = "none"; // Hide search overlay
+    document.body.style.overflow = "auto"; // Restore background scroll
 }
 
+// Filter Games in Overlay (Real-Time Search)
+function filterGamesOverlay() {
+    const searchBar = document.getElementById("overlay-search-bar");
+    const searchText = searchBar.value.toLowerCase();
+    const gameCards = document.querySelectorAll(".game-grid .game-card");
+    const searchResultsGrid = document.getElementById("search-results-grid");
 
+    searchResultsGrid.innerHTML = ""; // Clear previous results
 
-/**
- * Show or hide the "No Results Found" message
- */
-function toggleNoResultsMessage(hasResults, gameGrid) {
-    const noResultsMessageId = 'no-results';
-    let noResults = document.getElementById(noResultsMessageId);
+    let hasResults = false;
 
+    gameCards.forEach((card) => {
+        const title = card.querySelector(".game-title").textContent.toLowerCase();
+        if (title.includes(searchText)) {
+            const clonedCard = card.cloneNode(true); // Clone the matching game card
+            searchResultsGrid.appendChild(clonedCard);
+            hasResults = true;
+        }
+    });
+
+    // Show "No Results Found" message if no matches
     if (!hasResults) {
-        if (!noResults) {
-            noResults = document.createElement('p');
-            noResults.id = noResultsMessageId;
-            noResults.textContent = 'No games found.';
-            noResults.style.color = 'red';
-            noResults.style.textAlign = 'center';
-            gameGrid.appendChild(noResults);
-        }
-    } else {
-        if (noResults) {
-            noResults.remove();
-        }
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.id = "no-results";
+        noResultsMessage.textContent = "No games found.";
+        noResultsMessage.style.textAlign = "center";
+        noResultsMessage.style.color = "red";
+        searchResultsGrid.appendChild(noResultsMessage);
     }
 }
-
 /**
  * Automatically update the meta description
  */
