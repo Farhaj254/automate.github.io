@@ -99,6 +99,84 @@ function addCategoryFiltering() {
         });
     });
 }
+// scroll continuity 
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollingContainer = document.querySelector(".scrolling-container");
+    const cards = [...document.querySelectorAll(".scrolling-game-card")];
+
+    const cardWidth = cards[0].offsetWidth; // Width of a single card
+    const gap = 30; // Gap between cards
+    const totalWidth = (cardWidth + gap) * cards.length; // Total width of all cards with gaps
+
+    let speed = 2; // Auto-scroll speed
+    let isPaused = false; // Controls auto-scrolling
+    let isUserInteracting = false; // Detects if the user is interacting
+    let startX, scrollLeft; // For touch gestures
+    let interactionTimeout; // Timeout reference for mobile auto-resume
+    let isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0; // Detect mobile
+
+    function loop() {
+        if (!isPaused && !isUserInteracting) { 
+            cards.forEach((card) => {
+                const currentLeft = parseFloat(card.style.left || card.offsetLeft);
+                const newLeft = currentLeft - speed;
+
+                if (newLeft + cardWidth < 0) {
+                    card.style.left = `${currentLeft + totalWidth}px`;
+                } else {
+                    card.style.left = `${newLeft}px`;
+                }
+            });
+        }
+        requestAnimationFrame(loop);
+    }
+
+    // Initialize card positions
+    let initialLeft = 0;
+    cards.forEach((card) => {
+        card.style.position = "absolute";
+        card.style.left = `${initialLeft}px`;
+        initialLeft += cardWidth + gap;
+    });
+
+    // Start auto-scrolling
+    loop();
+
+    // **Desktop Hover Behavior: Stop auto-scroll on hover, resume when mouse leaves**
+    if (!isMobile) {
+        cards.forEach((card) => {
+            card.addEventListener("mouseenter", () => {
+                isPaused = true; // Stop auto-scroll when hovering
+            });
+
+            card.addEventListener("mouseleave", () => {
+                isPaused = false; // Resume auto-scroll when mouse leaves
+            });
+        });
+    }
+
+    // **Mobile Swipe Behavior: Stop auto-scroll for 3 seconds on swipe**
+    if (isMobile) {
+        scrollingContainer.addEventListener("touchstart", (e) => {
+            isUserInteracting = true; // Stop auto-scroll immediately
+            clearTimeout(interactionTimeout);
+            startX = e.touches[0].pageX;
+            scrollLeft = scrollingContainer.scrollLeft;
+        });
+
+        scrollingContainer.addEventListener("touchmove", (e) => {
+            const x = e.touches[0].pageX;
+            const walk = startX - x;
+            scrollingContainer.scrollLeft = scrollLeft + walk;
+        });
+
+        scrollingContainer.addEventListener("touchend", () => {
+            interactionTimeout = setTimeout(() => {
+                isUserInteracting = false; // Resume auto-scroll after 3 sec
+            }, 3000);
+        });
+    }
+});
 /**
  * Automatically update the meta description
  */
