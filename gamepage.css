@@ -28,15 +28,15 @@ h2 {
     }
 }
 
-/* Header */
+/* ========== HEADER ========== */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 20px;
     background-color: #000000; /* Black background for header */
-    border-bottom: 3px solid #00FFFF; /* Updated to cyan */
-    width: 100%; /* Ensure header doesn't overflow */
+    border-bottom: 3px solid #00FFFF; /* Cyan border */
+    position: relative;
 }
 
 header .logo img {
@@ -49,39 +49,29 @@ header .controls {
     gap: 15px;
 }
 
-
-
-/* Navigation Menu */
+/* ========== NAVIGATION STYLING ========== */
 .nav-links {
     display: flex;
-    justify-content: center;
     list-style: none;
     gap: 15px;
     margin: 0;
-    padding: 0; /* Remove default padding */
+    padding: 0;
 }
 
-.nav-links button {
+.nav-links a {
+    text-decoration: none;
     background-color: #1a1a2e;
-    color: #00FFFF; /* Initial color is cyan */
-    border: none;
+    color: #00FFFF;
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
     border-radius: 5px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-links button:hover {
-    background-color: #00FFFF; /* Hover background changes to cyan */
-    color: #000; /* Text changes to black on hover */
+.nav-links a:hover {
+    background-color: #00FFFF;
+    color: #000;
     transform: scale(1.1);
-}
-
-.nav-links button.active {
-    background-color: #00FFFF; /* Cyan color for selected button */
-    color: #000; /* Black text */
-    transform: scale(1.1); /* Optional: Keep the slight scale effect */
 }
 /* General Search Overlay */
 .search-overlay {
