@@ -1,11 +1,18 @@
 /* General Styles */
+* {
+    box-sizing: border-box; /* Ensure padding and borders are included in element width */
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #1a1a2e; /* Dark gaming background */
     color: #eaeaea;
     margin: 0;
     padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
+
 h2 {
     text-align: left; /* Align the heading to the left */
     margin-left: 20px; /* Adjust this value to match the padding/margin of the game grid */
@@ -13,6 +20,7 @@ h2 {
     color: #eaeaea; /* Keep it consistent with your theme */
     margin-bottom: 10px; /* Space between the heading and the game grid */
 }
+
 @media (max-width: 768px) {
     h2 {
         text-align: center; /* Center align on mobile if needed */
@@ -28,8 +36,8 @@ header {
     padding: 10px 20px;
     background-color: #000000; /* Black background for header */
     border-bottom: 3px solid #00FFFF; /* Updated to cyan */
+    width: 100%; /* Ensure header doesn't overflow */
 }
-
 
 header .logo img {
     width: 150px;
@@ -41,138 +49,19 @@ header .controls {
     gap: 15px;
 }
 
-/* General Search Overlay */
-.search-overlay {
-    display: none; /* Initially hidden */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent black */
-    z-index: 1000;
-    padding: 20px;
-    overflow-y: auto; /* Allow scrolling on long results */
-    color: #eaeaea;
-    box-sizing: border-box; /* Include padding in width/height calculations */
-}
-
-/* Search Header - Desktop */
-.search-header {
-    display: flex;
-    justify-content: center; /* Center-align the search bar */
-    align-items: center;
-    margin-bottom: 20px;
-    position: sticky;
-    top: 0;
-    background: rgba(0, 0, 0, 0.95); /* Sticky header with same background */
-    padding: 10px 0;
-    z-index: 1001; /* Ensure it stays above content */
-    position: relative; /* Ensure children can be positioned absolutely */
-}
-
-/* Search Bar */
-#overlay-search-bar {
-    width: 50%; /* Default desktop width */
-    padding: 8px 12px; /* Adjust padding */
-    font-size: 14px; /* Font size */
-    border: 2px solid #00FFFF; /* Cyan border */
-    border-radius: 20px; /* Rounded corners */
-    outline: none;
+#search-bar {
+    padding: 8px 12px;
+    border: 1px solid #444;
+    border-radius: 4px;
     background-color: #2a2a3b;
     color: #fff;
-    box-sizing: border-box; /* Ensure padding is included in width */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    padding-right: 40px; /* Space for close button */
+    font-size: 16px;
+    width: 100%; /* Ensure search bar doesn't overflow */
 }
 
-/* Close Button Inside the Search Bar */
-#close-search-overlay {
-    position: absolute;
-    top: 50%;
-    right: calc(25% + 15px); /* Align to the right of the search bar */
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-    color: #00FFFF; /* Cyan color */
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.3s ease, transform 0.3s ease;
+#search-bar::placeholder {
+    color: #ccc;
 }
-
-#close-search-overlay:hover {
-    color: #ff00ff; /* Change color on hover */
-    transform: translateY(-50%) scale(1.2); /* Slight hover effect */
-}
-
-/* Focus Effect for Search Bar */
-#overlay-search-bar:focus {
-    border-color: #00FFFF;
-    box-shadow: 0 0 5px #00FFFF; /* Subtle glow effect */
-}
-
-/* Responsive Adjustments for Mobile */
-@media (max-width: 768px) {
-    .search-header {
-        flex-direction: row; /* Keep search bar and close button aligned */
-        justify-content: center;
-    }
-
-    #overlay-search-bar {
-        width: 90%; /* Full-width on mobile */
-        margin-right: 0;
-        font-size: 16px; /* Slightly larger font */
-        padding-right: 40px;
-    }
-
-    #close-search-overlay {
-        right: 5%; /* Adjust position for mobile view */
-    }
-}
-
-/* Game Cards Grid */
-.search-results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
-    gap: 15px; /* Space between items */
-    width: 100%; /* Full width */
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.search-results-grid .game-card {
-    position: relative;
-    background: #27293d;
-    color: #fff;
-    text-align: center;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 100%; /* Full width for grid */
-    aspect-ratio: 1; /* Maintain square ratio */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-.search-results-grid .game-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.search-results-grid .game-card .game-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    padding: 10px;
-    font-size: 14px;
-    color: #00FFFF; /* Cyan text */
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
 
 #dark-mode-toggle {
     background-color: transparent;
@@ -194,6 +83,7 @@ header .controls {
     list-style: none;
     gap: 15px;
     margin: 0;
+    padding: 0; /* Remove default padding */
 }
 
 .nav-links button {
@@ -219,16 +109,13 @@ header .controls {
     transform: scale(1.1); /* Optional: Keep the slight scale effect */
 }
 
-
-
 /* Game Grid */
-
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Flexible grid columns */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Create multiple columns */
     gap: 20px; /* Space between cards */
     padding: 20px; /* Internal padding */
-    margin: 0 auto; /* Center the grid */
+    margin:0 auto; /* Center the grid */
     width: 95%; /* Add some buffer space */
     box-sizing: border-box; /* Ensure padding is included in width */
 }
@@ -253,16 +140,19 @@ header .controls {
 /* Responsive Design */
 @media (max-width: 768px) {
     .game-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Maintain consistency with larger screens */
-        gap: 10px; /* Same gap as larger screens */
-        padding: 20px; /* Same padding as larger screens */
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Create multiple columns */
+        gap: 30px; /* Reduce gap for better spacing */
+        padding: 10px;
+        width: 100%; /* Ensure it takes full width */
     }
 
-    .game-card {
+     .game-card {
         width: 150px; /* Keep card width consistent */
         height: 150px; /* Keep card height consistent */
     }
 }
+
 
 
 
@@ -312,7 +202,6 @@ header .controls {
 }
 
 
-
 /* Footer */
 footer {
     background-color: #000000; /* Black background */
@@ -321,6 +210,7 @@ footer {
     padding: 10px;
     font-size: 14px;
     border-top: 3px solid #00FFFF; /* Cyan border to match theme */
+    width: 100%; /* Ensure footer doesn't overflow */
 }
 
 footer a {
@@ -339,10 +229,13 @@ footer a:hover {
     display: flex;
     justify-content: space-between; /* Add spacing between sections */
     align-items: flex-start; /* Align items to the top */
-    gap: 20px; /* Space between left, center, and right sections */
-    max-width: 1200px; /* Ensure enough space for all sections */
+    gap: 10px; /* Space between left, center, and right sections */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1800px; /* Ensure enough space for all sections */
     margin: 0 auto; /* Center the entire section */
+    padding: 20px; /* Add padding for spacing */
 }
+
 /* Adjust the iframe container to match the game content width */
 .iframe-container {
     width: 100%; /* Take the full width of the parent container */
@@ -358,13 +251,12 @@ footer a:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add subtle shadow */
 }
 
-
 .game-info-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 10px auto;
-    width: 80%;
+    width: 100%; /* Ensure it takes full width */
     max-width: 1000px;
 }
 
@@ -395,8 +287,6 @@ footer a:hover {
     color: #007bff;
     transform: scale(1.2);
 }
-
-
 
 /* Ensure hamburger menu is visible on mobile */
 .hamburger-menu {
@@ -431,13 +321,6 @@ footer a:hover {
     }
 }
 
-
-.hamburger-icon {
-    font-size: 24px;
-    color: #00FFFF;
-    cursor: pointer;
-    user-select: none;
-}
 /* Mobile Menu */
 .mobile-menu {
     position: fixed;
@@ -456,7 +339,6 @@ footer a:hover {
     padding: 20px;
     overflow-y: auto; /* Add scroll in case of overflow */
 }
-
 
 .menu-header {
     display: flex;
@@ -541,6 +423,7 @@ footer a:hover {
         display: block; /* Show search icon on mobile */
     }
 }
+
 #search-container {
     display: none; /* Initially hidden */
     flex-direction: row;
@@ -579,21 +462,13 @@ footer a:hover {
     }
 }
 
-}
 /* Game Section For Left and Right Section */
-.game-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    width: 90%; /* Keep responsive behavior */
-    max-width: 1400px; /* Allow more space for larger screens */
-    margin: 0 auto;
-    padding: 20;
+.left-section,
+.right-section {
+    flex: 0 0 400px; /* Shrink to 250px */
+    max-width: 450px; /* Prevent them from growing */
 }
 
-
-/* Left and Right Sections */
 /* Game Grid (2x2 layout) */
 .leftright-grid {
     display: grid;
@@ -685,10 +560,6 @@ footer a:hover {
     }
 }
 
-
-
-
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .game-section {
@@ -696,20 +567,22 @@ footer a:hover {
         align-items: center;
         gap: 20px;
     }
-      .left-section, .right-section {
+
+    .left-section,
+    .right-section {
         display: none; /* Hide the sections on smaller screens */
     }
 }
 
- /* Game Content Section */
+/* Game Content Section */
 .game-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 80%; /* Reduced from 90% */
-    max-width: 1200px; /* Reduce the maximum width */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1400px; /* Reduce the maximum width */
     margin: 20px auto;
     padding: 20px;
     background-color: #1a1a2e;
@@ -717,13 +590,12 @@ footer a:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-
-
 /* Adjust the game content for larger screens */
 @media (min-width: 1440px) {
     .game-section {
         max-width: 2000px; /* Extra space for large screens */
     }
+
     .game-content {
         max-width: 1800px; /* Grow to match increased parent width */
     }
@@ -749,7 +621,6 @@ footer a:hover {
     font-weight: bold;
     color: #00FFFF;
 }
-
 .game-buttons {
     display: flex;
     gap: 10px;
@@ -768,6 +639,7 @@ footer a:hover {
     color: #007bff;
     transform: scale(1.2);
 }
+
 .game-description {
     width: 100%;
     background-color: #27293d;
@@ -796,10 +668,12 @@ footer a:hover {
 .game-description:hover {
     overflow-y: auto;
 }
+
 .game-section, .game-content, .left-section, .right-section {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 5px auto;
+    padding: 5px;
 }
+
 @media (max-width: 768px) {
     .game-grid {
         padding: 15px;
@@ -816,6 +690,7 @@ footer a:hover {
         padding: 15px;
     }
 }
+
 /* Responsive Design for Medium Screens */
 @media (min-width: 769px) and (max-width: 1200px) {
     .game-section {
@@ -843,15 +718,23 @@ footer a:hover {
     width: 100%;
     background-color: #1a1a2e; /* Match the theme */
     padding: 10px 0;
-    overflow: hidden; /* Hide overflow content */
+    overflow: hidden; /* Keep this to hide out-of-view cards */
     position: relative;
+    margin-top: 20px;
 }
 
 .scrolling-container {
     display: flex;
-    gap: 30px; /* Space between cards */
-    animation: scroll-left 15s linear infinite; /* Infinite scrolling animation */
-    will-change: transform;
+    position: relative;
+    height: 180px;
+    overflow-x: auto; /* Enable manual horizontal scrolling */
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+}
+
+.scrolling-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
 }
 
 .scrolling-game-card {
@@ -926,6 +809,7 @@ footer a:hover {
         width: 120px;
         height: 120px;
     }
+
     .scrolling-container {
         gap: 10px;
         animation-duration: 20s; /* Slower scrolling on smaller screens */
