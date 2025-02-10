@@ -163,6 +163,117 @@
     }
 </style>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Fetching latest games...");
+
+    fetch("/index.html")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load index.html");
+            }
+            return response.text();
+        })
+        .then(html => {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, "text/html");
+            let gameList = doc.querySelector("#game-list");
+
+            if (!gameList) {
+                console.error("⚠️ #game-list not found in index.html!");
+                return;
+            }
+
+            let latestGames = gameList.querySelectorAll(".game-card");
+            let scrollingContainer = document.querySelector(".scrolling-container");
+
+            scrollingContainer.innerHTML = ""; // ✅ Clear existing game cards
+
+            if (latestGames.length === 0) {
+                console.warn("⚠️ No games found in #game-list!");
+                return;
+            }
+
+            // ✅ Add latest games to scrolling section
+            latestGames.forEach((game, index) => {
+                if (index < 10) { // ✅ Limit to 10 games
+                    let gameCard = document.createElement("a");
+                    gameCard.classList.add("scrolling-game-card");
+                    gameCard.href = game.getAttribute("href");
+                    gameCard.innerHTML = game.innerHTML; // ✅ Copy image & title
+
+                    scrollingContainer.appendChild(gameCard);
+                }
+            });
+
+            console.log("✅ Successfully updated scrolling games!");
+
+            // ✅ Reapply scrolling animation after new games are loaded
+            initializeScrollingGames();
+        })
+        .catch(error => console.error("❌ Error loading latest games:", error));
+});
+
+/** 🔄 Reapply Scrolling Animation */
+function initializeScrollingGames() {
+    const scrollingContainer = document.querySelector(".scrolling-container");
+    const cards = [...document.querySelectorAll(".scrolling-game-card")];
+
+    if (cards.length === 0) {
+        console.warn("⚠️ No game cards found for scrolling!");
+        return;
+    }
+
+    let speed = 2;
+    let isPaused = false;
+    let isUserInteracting = false;
+    let startX, scrollLeft;
+    let interactionTimeout;
+    let isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    function loop() {
+        if (!isPaused && !isUserInteracting) { 
+            scrollingContainer.scrollLeft += speed;
+
+            // Loop back to the start when reaching the end
+            if (scrollingContainer.scrollLeft >= scrollingContainer.scrollWidth - scrollingContainer.clientWidth) {
+                scrollingContainer.scrollLeft = 0;
+            }
+        }
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+
+    // ✅ Stop auto-scroll when hovered (for desktop)
+    if (!isMobile) {
+        scrollingContainer.addEventListener("mouseenter", () => isPaused = true);
+        scrollingContainer.addEventListener("mouseleave", () => isPaused = false);
+    }
+
+    // ✅ Mobile Swipe Support
+    if (isMobile) {
+        scrollingContainer.addEventListener("touchstart", (e) => {
+            isUserInteracting = true;
+            clearTimeout(interactionTimeout);
+            startX = e.touches[0].pageX;
+            scrollLeft = scrollingContainer.scrollLeft;
+        });
+
+        scrollingContainer.addEventListener("touchmove", (e) => {
+            const x = e.touches[0].pageX;
+            const walk = startX - x;
+            scrollingContainer.scrollLeft = scrollLeft + walk;
+        });
+
+        scrollingContainer.addEventListener("touchend", () => {
+            interactionTimeout = setTimeout(() => {
+                isUserInteracting = false;
+            }, 3000);
+        });
+    }
+}
+</script>
 
 
     
