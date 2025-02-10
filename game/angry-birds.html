@@ -161,33 +161,31 @@
             font-weight: bold;
         }
     }
-</style>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Fetching latest games...");
+    console.log("📢 Fetching latest games...");
 
-    fetch("/index.html")
+    fetch("../index.html")  // ✅ Ensure correct path (try "./index.html" if needed)
         .then(response => {
             if (!response.ok) {
-                throw new Error("Failed to load index.html");
+                throw new Error("❌ Failed to load index.html");
             }
             return response.text();
         })
         .then(html => {
             let parser = new DOMParser();
             let doc = parser.parseFromString(html, "text/html");
-            let gameList = doc.querySelector("#game-list");
+            let gameList = doc.querySelector("#game-list"); // ✅ Find latest games
 
             if (!gameList) {
-                console.error("⚠️ #game-list not found in index.html!");
+                console.error("⚠️ #game-list NOT found in index.html!");
                 return;
             }
 
-            let latestGames = gameList.querySelectorAll(".game-card");
+            let latestGames = gameList.querySelectorAll(".game-card"); // ✅ Get all game cards
             let scrollingContainer = document.querySelector(".scrolling-container");
 
-            scrollingContainer.innerHTML = ""; // ✅ Clear existing game cards
+            scrollingContainer.innerHTML = ""; // ✅ Clear old game cards
 
             if (latestGames.length === 0) {
                 console.warn("⚠️ No games found in #game-list!");
@@ -196,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // ✅ Add latest games to scrolling section
             latestGames.forEach((game, index) => {
-                if (index < 10) { // ✅ Limit to 10 games
+                if (index < 10) { // ✅ Limit to 10 latest games
                     let gameCard = document.createElement("a");
                     gameCard.classList.add("scrolling-game-card");
                     gameCard.href = game.getAttribute("href");
@@ -209,13 +207,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("✅ Successfully updated scrolling games!");
 
             // ✅ Reapply scrolling animation after new games are loaded
-            initializeScrollingGames();
+            setTimeout(() => {
+                initializeScrollingGames();
+            }, 500);
         })
         .catch(error => console.error("❌ Error loading latest games:", error));
 });
 
 /** 🔄 Reapply Scrolling Animation */
 function initializeScrollingGames() {
+    console.log("🔄 Reinitializing scrolling games animation...");
     const scrollingContainer = document.querySelector(".scrolling-container");
     const cards = [...document.querySelectorAll(".scrolling-game-card")];
 
@@ -272,8 +273,11 @@ function initializeScrollingGames() {
             }, 3000);
         });
     }
+
+    console.log("✅ Scrolling animation reinitialized.");
 }
 </script>
+
 
 
     
