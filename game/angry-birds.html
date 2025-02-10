@@ -166,7 +166,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("📢 Fetching latest games...");
 
-    fetch("/index.html")
+    fetch("./index.html")  // ✅ Check different paths if fetch fails
         .then(response => {
             if (!response.ok) {
                 throw new Error("❌ Failed to load index.html");
