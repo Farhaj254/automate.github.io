@@ -166,7 +166,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("📢 Fetching latest games...");
 
-    fetch("../index.html")  // ✅ Ensure correct path (try "./index.html" if needed)
+    fetch("/index.html")
         .then(response => {
             if (!response.ok) {
                 throw new Error("❌ Failed to load index.html");
@@ -176,14 +176,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(html => {
             let parser = new DOMParser();
             let doc = parser.parseFromString(html, "text/html");
-            let gameList = doc.querySelector("#game-list"); // ✅ Find latest games
+            let gameList = doc.querySelector("#game-list");
 
             if (!gameList) {
                 console.error("⚠️ #game-list NOT found in index.html!");
                 return;
             }
 
-            let latestGames = gameList.querySelectorAll(".game-card"); // ✅ Get all game cards
+            let latestGames = gameList.querySelectorAll(".game-card");
             let scrollingContainer = document.querySelector(".scrolling-container");
 
             scrollingContainer.innerHTML = ""; // ✅ Clear old game cards
