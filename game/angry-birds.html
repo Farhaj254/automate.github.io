@@ -162,6 +162,40 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("index.html") // Fetch index.html content
+        .then(response => response.text())
+        .then(html => {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, "text/html");
+            let gameList = doc.querySelector("#game-list"); // Find latest games
+
+            if (gameList) {
+                let latestGames = gameList.querySelectorAll(".game-card"); // Get all game cards
+                let scrollingContainer = document.querySelector(".scrolling-container");
+
+                scrollingContainer.innerHTML = ""; // ✅ Clear existing game cards first
+
+                // Loop through latest games and add them to scrolling section
+                latestGames.forEach((game, index) => {
+                    if (index < 10) { // Limit to 10 latest games
+                        let gameCard = document.createElement("a");
+                        gameCard.classList.add("scrolling-game-card");
+                        gameCard.href = game.getAttribute("href");
+                        gameCard.innerHTML = game.innerHTML; // Copy image & title
+
+                        scrollingContainer.appendChild(gameCard);
+                    }
+                });
+            }
+        })
+        .catch(error => console.error("Error loading latest games:", error));
+});
+</script>
+
+    
 </head>
 <body>
   <header>
